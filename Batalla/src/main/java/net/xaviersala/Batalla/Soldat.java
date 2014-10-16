@@ -58,7 +58,7 @@ public class Soldat {
         r = new Random();
 
         desti = (int) imatge.getX();
-        direccio = 0;
+        direccio = 1;
     }
 
     /**
@@ -129,7 +129,11 @@ public class Soldat {
      */
     public final void definirDesti(final int posicioFinal) {
         desti = posicioFinal - (int) imatge.getWidth();
+        int direccioActual = direccio;
         direccio = calculaDireccio();
+        if (direccioActual != direccio) {
+            flipHorizontal();
+        }
     }
 
     /**
@@ -161,6 +165,27 @@ public class Soldat {
      */
     private boolean haArribat() {
         return (direccio != calculaDireccio());
+    }
+
+    /**
+     * Gira la imatge
+     * @param imatge
+     * @return
+     */
+    private void flipHorizontal() {
+        int[][] array = imatge.getPixelArray();
+        int height = array.length;
+        int width = array[0].length;
+
+        for (int y = 0; y < height; y++) {
+            for (int x1 = 0; x1 < width / 2; x1++) {
+                int x2 = width - x1 - 1;
+                int temp = array[y][x1];
+                array[y][x1] = array[y][x2];
+                array[y][x2] = temp;
+            }
+        }
+        imatge.setImage(new GImage(array).getImage());
     }
 
 }

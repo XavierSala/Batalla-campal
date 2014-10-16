@@ -26,7 +26,7 @@ public class Exercit {
     /**
      * Altura de la fila.
      */
-    private static final int ALTURAFILA = 75;
+    private static final int ALTURAFILA = 78;
 
     /**
      * Files en que es distribueix l'exèrcit.
@@ -123,15 +123,15 @@ public class Exercit {
     /**
      * @return the filesExercit
      */
-    public int getFilesExercit() {
+    public final int getFilesExercit() {
         return filesExercit;
     }
 
     /**
-     * @param filesExercit the filesExercit to set
+     * @param files the filesExercit to set
      */
-    public void setFilesExercit(int filesExercit) {
-        this.filesExercit = filesExercit;
+    public final void setFilesExercit(final int files) {
+        this.filesExercit = files;
     }
 
     /**

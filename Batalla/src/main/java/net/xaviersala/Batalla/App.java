@@ -21,11 +21,11 @@ public class App  extends GraphicsProgram {
     /**
      * Amplada de la pantalla.
      */
-    private static final int AMPLADAPANTALLA = 800;
+    private static final int AMPLADAPANTALLA = 1000;
     /**
      * Número de soldats de cada exèrcit.
      */
-    private static final int NUMEROSOLDATS = 12;
+    private static final int NUMEROSOLDATS = 30;
     /**
      *
      */
@@ -40,14 +40,15 @@ public class App  extends GraphicsProgram {
 
         String[] noms = {"soldat.png"};
         Exercit exercit = creaExercit("Imperi", NUMEROSOLDATS, noms);
-
         hastings.afegirExercit(exercit, MARGEINICIAL, getWidth());
+
 
         String[] noms2 = {"guerrer2.png", "guerrer3.png",
                 "guerrer4.png", "guerrer5.png"};
         exercit = creaExercit("TrencaOssos", NUMEROSOLDATS, noms2);
-
         hastings.afegirExercit(exercit, getWidth(), MARGEINICIAL);
+
+
         hastings.batalla();
 
     }
