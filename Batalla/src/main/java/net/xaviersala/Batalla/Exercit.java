@@ -1,6 +1,5 @@
 package net.xaviersala.Batalla;
 
-import java.awt.Image;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -8,6 +7,12 @@ import java.util.Random;
 import acm.graphics.GImage;
 import acm.graphics.GRectangle;
 
+/**
+ * Exèrcit de Soldats preparat per atacar.
+ *
+ * @author xavier
+ *
+ */
 public class Exercit {
 
     /**
@@ -17,170 +22,159 @@ public class Exercit {
     /**
      * Amplada de la fila.
      */
-    private static final int AMPLADAFILA = 60;
+    private static final int AMPLADAFILA = 50;
     /**
      * Altura de la fila.
      */
-    private static final int ALTURAFILA = 80;
+    private static final int ALTURAFILA = 75;
+
+    /**
+     * Files en que es distribueix l'exèrcit.
+     */
+    private int filesExercit;
+
     /**
      * Nom de l'exercit.
      */
-    String nom;
+    private String nom;
     /**
      * Llista de soldats que composen l'exèrcit.
      */
-    List<Soldat> soldats;
-    /**
-     * Direcció en la que es mou l'exèrcit.
-     */
-    int direccio;
+    private List<Soldat> soldats;
 
     /**
-     * Imatges de l'exèrcit
+     * Mida del Camp de Batalla.
      */
-    List<Image> imatges;
+    private int midaCampBatalla;
 
     /**
-     * Generador de números aleatòris
+     * Generador de números aleatòris.
      */
     private Random aleatori;
+    /**
+     * Posicio des d'on s'inicia l'atac.
+     */
+    private int posicioOriginal;
+    /**
+     * Posicio final de l'atac.
+     */
+    private int posicioFinal;
 
     /**
      * Crea un exèrcit amb un identificador.
      *
      * L'exèrcit es crea sense soldats... (no sé
      * perquè pot servir)
+     *
+     * @param identificador nom de l'exèrcit
      */
-    public Exercit(String identificador) {
+    public Exercit(final String identificador) {
         aleatori = new Random();
-        if (identificador!=null) nom = identificador;
-        else nom = DEFAULT_NAME;
-        soldats = new ArrayList<Soldat>();
-        imatges = new ArrayList<Image>();
-        direccio = 1;
-    }
-
-    /**
-     * Crea un exèrcit especificant-li un identificador i
-     * un número de soldats.
-     *
-     * @param identificador Nom de l'exèrcit
-     * @param numSoldats Número de soldats a crear
-     */
-    public Exercit(String identificador, int numSoldats) {
-        this(identificador);
-        crearSoldats(numSoldats);
-    }
-
-    /**
-     * Crea un exèrcit i li defineix quines seran les imatges que
-     * farà servir.
-     *
-     * @param identificador Nom de l'exèrcit
-     * @param fitxersImatges Llista amb les imatges
-     */
-    public Exercit(String identificador, List<Image> fitxersImatges) {
-        this(identificador);
-        for(Image fitxerImatge: fitxersImatges) {
-            afegirImatge(fitxerImatge);
+        if (identificador != null) {
+            nom = identificador;
+        } else {
+            nom = DEFAULT_NAME;
         }
-
+        soldats = new ArrayList<Soldat>();
+        filesExercit = 1;
     }
 
     /**
-     * Crea un exèrcit a partir dels paràmetres especificats.
-     *
-     * @param identificador Nom de l'exèrcit
-     * @param fitxersImatges Imatges que formaran l'exèrcit
-     * @param numSoldats Número de soldats de l'exèrcit
+     * Crear un exèrcit i definir-li quina és la mida del camp de batalla.
+     * @param identificador nom de l'exèrcit
+     * @param midaCamp mida del camp de batalla
      */
-    public Exercit(String identificador, List<Image> fitxersImatges, int numSoldats) {
-        this(identificador, fitxersImatges);
-        crearSoldats(numSoldats);
+    public Exercit(final String identificador, final int midaCamp) {
+        this(identificador);
+        midaCampBatalla = midaCamp;
     }
 
     /**
      * @return retorna el nom de l'exèrcit
      */
-    public String getNom() {
+    public final String getNom() {
         return nom;
     }
 
     /**
      * Defineix el nom de l'exèrcit.
-     * @param nom nom que es posarà
+     * @param nouNom nom que es posarà
      */
-    public void setNom(String nom) {
-        this.nom = nom;
+    public final void setNom(final String nouNom) {
+        this.nom = nouNom;
     }
 
     /**
-     * Canvia la direcció de l'exercit.
+     * @return retorna la mida del camp de batalla.
      */
-    public void canviaDireccio() {
-        if (Math.abs(direccio)==1) {
-            direccio *= -1;
-        } else {
-            direccio = 1;
+    public final int getMidaCampBatalla() {
+        return midaCampBatalla;
+    }
+
+    /**
+     * Defineix la mida del camp de batalla.
+     *
+     * @param mida Mida del camp de batalla
+     */
+    public final void setMidaCampBatalla(final int mida) {
+        midaCampBatalla = mida;
+    }
+
+    /**
+     * @return the filesExercit
+     */
+    public int getFilesExercit() {
+        return filesExercit;
+    }
+
+    /**
+     * @param filesExercit the filesExercit to set
+     */
+    public void setFilesExercit(int filesExercit) {
+        this.filesExercit = filesExercit;
+    }
+
+    /**
+     * Canvia la direcció en que mira l'exercit.
+     *
+     * Per anar bé mai, no hauria de ser zero...
+     *
+     * @return direccio en la que mira l'exèrcit
+     */
+    public final int calculaDireccio() {
+
+        if (posicioFinal - posicioOriginal == 0) {
+            return 0;
+        }
+        return (posicioFinal - posicioOriginal)
+                    / Math.abs(posicioFinal - posicioOriginal);
+
+    }
+
+    /**
+     * Afegir un soldat a l'exèrcit.
+     *
+     * Funció per reclutar un soldat
+     *
+     * @param soldat número de soldats
+     */
+    public final void allistarSoldat(final Soldat soldat) {
+        if (soldat != null) {
+            soldats.add(soldat);
         }
     }
 
     /**
-     * Crear els soldats de l'exercit.
-     *
-     * En cas de que tingui imatges les passarà al constructor del
-     * soldat i si no en tenen deixarà que el constructor del Soldat
-     * trïi les que tingui per defecte
-     *
-     * Si no s'ha creat l'exèrcit amb imatges crearà un soldat amb
-     * la imatge per defecte.
-     *
-     * @param numero número de soldats
+     * @return llista de soldats
      */
-    public void crearSoldats(int numero) {
-        int numImatges = imatges.size();
-        for(int i=0; i < numero; i++) {
-            if (imatges.size() == 0) {
-                soldats.add(new Soldat());
-            } else {
-                soldats.add(new Soldat(
-                        imatges.get(aleatori.nextInt(numImatges))
-                ));
-            }
-        }
-    }
-
-    public List<Soldat> getSoldats() {
+    public final List<Soldat> getSoldats() {
         return soldats;
     }
 
     /**
-     * @return Retorna totes les imatges que formen l'exèrcit.
-     */
-    List<GImage> getImatges() {
-        List<GImage> grafics = new ArrayList<GImage>();
-        for(Soldat s: soldats) {
-            grafics.add(s.getImatge());
-        }
-        return grafics;
-    }
-
-    /**
-     * Afegir una imatge a l'exèrcit.
-     * La idea és que un exèrcit pugui tenir soldats amb imatges
-     * diferents per poder-los crear diferents
-     */
-    public boolean afegirImatge(Image im) {
-        if (im!=null) {
-            imatges.add(im);
-            return true;
-        }
-        return false;
-    }
-    /**
      * @return Retorna el número de soldats de l'exèrcit
      */
-    public int numeroDeSoldats() {
+    public final int getNumeroDeSoldats() {
         return soldats.size();
     }
 
@@ -189,22 +183,50 @@ public class Exercit {
      * corresponent.
      * @param files Files en les que s'ha de reorganitzar l'exèrcit
      */
-    public void formacio(int files) {
+    public final void soldatsFormacio(final int files) {
+        filesExercit = files;
         int[] posicioEnLesFiles = new int[files];
-        for(Soldat s: soldats) {
+        int puntBase = 0;
+
+        int direccio = calculaDireccio();
+
+        if (direccio < 0) {
+            puntBase = midaCampBatalla - AMPLADAFILA;
+        }
+        for (Soldat s: soldats) {
             int fila = aleatori.nextInt(files);
-            s.posiciona(posicioEnLesFiles[fila]*AMPLADAFILA, fila*ALTURAFILA);
+            s.posiciona(puntBase
+                    + direccio * posicioEnLesFiles[fila] * AMPLADAFILA,
+                    fila * ALTURAFILA);
             posicioEnLesFiles[fila]++;
+        }
+    }
+
+    /**
+     * Definir el destí dels soldats en coordenades x.
+     */
+    public final void soldatsDefinirDesti() {
+        for (Soldat s: soldats) {
+            s.definirDesti(posicioFinal);
         }
     }
 
     /**
      * Atacar!
      */
-    public void atacar() {
-        for(Soldat s: soldats) {
-            s.mou(direccio);
-            // Comprovar si matxaca a algú?
+    public final void soldatsAtacar() {
+        int quants = 0;
+        for (Soldat s: soldats) {
+            quants += s.mou();
+        }
+
+        if (quants == 0) {
+            // No s'ha mogut ningú, per tant podem tornar
+            // a definirDesti()
+            intercanviaPosicions();
+            soldatsDefinirDesti();
+            soldatsFormacio(filesExercit);
+
         }
     }
 
@@ -215,7 +237,7 @@ public class Exercit {
      * @param index Soldat que es vol obtenir
      * @return retorna el soldat
      */
-    public Soldat getSoldat(int index) {
+    public final Soldat getSoldat(final int index) {
         if (index < soldats.size()) {
             return soldats.get(index);
         }
@@ -225,34 +247,37 @@ public class Exercit {
      * Comprova si el soldat especificat xoca amb algun
      * dels soldats de la llista i si hi n'hi ha algun
      * l'esborra.
-     * @param s Soldat
+     * @param jo Soldat actual
+     * @param enemic Soldat enemic
      * @return posicioDelSoldat.
      */
-    public GRectangle rebreAtac(Soldat s) {
-        return null;
+    private boolean rebreAtac(final Soldat jo, final Soldat enemic) {
+        GRectangle soldatAmic = jo.getPosicio();
+        GRectangle soldatEnemic = enemic.getPosicio();
+        return soldatEnemic.intersects(soldatAmic);
     }
 
     /**
      * L'exèrcit actual rep un atac de l'altre exèrcit.
      *
-     * @param altre Altre exèrcit
+     * @param enemics Altre exèrcit
      * @return quants morts hem tingut...
      */
-    public int rebreAtac(Exercit enemics) {
+    public final int rebreAtac(final Exercit enemics) {
         Soldat eliminar = null;
         int eliminats = 0;
 
         for (Soldat enemic: enemics.getSoldats()) {
-            for(Soldat soldat: soldats) {
-                GRectangle soldatAmic = soldat.getPosicio();
-                GRectangle soldatEnemic = enemic.getPosicio();
-                if (soldatEnemic.intersects(soldatAmic)) {
+            for (Soldat soldat: soldats) {
+                if (rebreAtac(soldat, enemic)) {
                     eliminar = soldat;
                     break;
                 }
             }
-            if (eliminar!= null) {
+            if (eliminar != null) {
                 soldats.remove(eliminar);
+                GImage pic = eliminar.getImatge();
+                pic.getParent().remove(pic);
                 eliminar = null;
                 eliminats++;
             }
@@ -260,4 +285,32 @@ public class Exercit {
         return eliminats;
     }
 
+    /**
+     * Defineix en quin lloc està l'exèrcit.
+     * @param posicioi posició des d'on comença la formació
+     * @param posiciof destí de l'exercit
+     */
+    public final void setPosicio(final int posicioi,
+            final int posiciof) {
+        posicioOriginal = posicioi;
+        posicioFinal = posiciof;
+        soldatsDefinirDesti();
+    }
+
+    /**
+     * Intercanvia les direccions.
+     */
+    private void intercanviaPosicions() {
+        int tmp = posicioOriginal;
+        posicioOriginal = posicioFinal;
+        posicioFinal = tmp;
+    }
+
+    /**
+     * @see toString
+     * @return descriu l'exèrcit
+     */
+    public final String toString() {
+        return nom;
+    }
 }

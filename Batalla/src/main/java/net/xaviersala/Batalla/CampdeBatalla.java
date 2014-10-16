@@ -1,92 +1,118 @@
 package net.xaviersala.Batalla;
 
-import java.awt.Image;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
-import acm.graphics.GCanvas;
-import acm.graphics.GImage;
-
+/**
+ * Camp de batalla.
+ *
+ * @author xavier
+ *
+ */
 public class CampdeBatalla {
     /**
-     * Número de files del terreny
+     * Temps d'espera entre passades.
      */
-    private static final int FILESTERRENY = 8;
+    private static final int TEMPSESPERA = 80;
+
+    /**
+     * Número de files del terreny.
+     */
+    private static final int FILESTERRENY = 6;
+
     /**
      * Numero de files del camp de batalla.
      */
-    int liniesDeBatalla;
+    private int filesTerreny;
+
     /**
      * Llista d'exèrcits.
      */
-    List<Exercit> exercits;
-
-    GCanvas pantalla;
+    private List<Exercit> exercits;
 
     /**
-     * Crea el camp de pantalla i l'associa a el Canvas actual.
+     * Pantalla on pintar.
+     */
+    private App pantalla;
+
+    /**
+     * Crea el camp de batalla i l'associa a el Canvas actual.
      *
-     * @param pantalla Canvas on pintar els soldats
+     * @param pant Canvas on pintar els soldats
      */
 
-    public CampdeBatalla(GCanvas pant) {
+    public CampdeBatalla(final App pant) {
         pantalla = pant;
-        liniesDeBatalla = FILESTERRENY;
+        filesTerreny = FILESTERRENY;
         exercits = new ArrayList<Exercit>();
     }
 
- /**
-  * Crea un exèrcit a partir dels paràmetres especificats
-  * @param nom Nom de l'exèrcit
-  * @param numSoldats Número de soldats a crear
-  * @param fitxers Imatges que composen els soldats de l'exèrcit
-  */
-    public void creaExercit(
-            String nom,
-            int numSoldats,
-            String[] fitxers) {
-
-        List<Image> fitxersImatges = carregarImatges(fitxers);
-        exercits.add(new Exercit(nom, fitxersImatges, numSoldats));
-        exercits.get(exercits.size()-1).formacio(5);
-        pintaImatges(exercits.size()-1);
+    /**
+     * Afegir un exèrcit al camp de batalla.
+     *
+     * @param ex Exercit que es vol afegir
+     * @param posicioi Posició inicial de l'exèrcit
+     * @param posiciof Posició final de l'exèrcit
+     */
+    public final void afegirExercit(final Exercit ex,
+            final int posicioi, final int posiciof) {
+        if (ex != null) {
+            exercits.add(ex);
+            ex.setMidaCampBatalla(pantalla.getWidth());
+            ex.setPosicio(posicioi, posiciof);
+            ex.soldatsFormacio(filesTerreny);
+            pintaImatges(exercits.size() - 1);
+        }
     }
-
-
-/**
- * Carrega les imatges especificades en l'Array en un ArrayList
- * de objecte java.awt.Image
- *
- * @param fitxers Llista de noms d'imatge
- * @return Llista d'objectes Image
- */
-private List<Image> carregarImatges(String[] fitxers) {
-
-    List<Image> fitxersImatges = new ArrayList<Image>();
-
-    for (String fitxer: fitxers) {
-        fitxersImatges.add(new GImage(fitxer).getImage());
-    }
-    return fitxersImatges;
-}
-
-
-/**
- * Pinta les imatges d'un exèrcit en el Canvas
- * @param numExercit
- */
-private void pintaImatges(int numExercit) {
-    // Pintar les imatges al canvas
-    List<GImage> imatges = exercits.get(numExercit).getImatges();
-    for(GImage imatge: imatges) {
-        pantalla.add(imatge);
-    }
-}
 
     /**
-     * Lluita!
+     * Pinta les imatges d'un exèrcit en el Canvas.
+     *
+     * @param numExercit Número d'exèrcit
      */
-    public void batalla() {
+    private void pintaImatges(final int numExercit) {
+
+        List<Soldat> imatges = exercits.get(numExercit).getSoldats();
+        for (Soldat un : imatges) {
+            pantalla.add(un.getImatge());
+        }
+    }
+
+    /**
+     * Comença la batalla entre els exèrcits.
+     *
+     * Bàsicament es fan atacar els exèrcits i es comproven
+     * els morts després de cada avançada.
+     *
+     * També ha de comprovar si un exèrcit ha vist reduits els
+     * seus soldats de manera que no pugui omplir les files. Si
+     * això passa es redueixen les files perquè els exèrcits es
+     * trobin més fàcilment
+     */
+    public final void batalla() {
+        Random r = new Random();
+
+        while (exercits.get(0).getNumeroDeSoldats() > 0
+            && exercits.get(1).getNumeroDeSoldats() > 0) {
+
+            exercits.get(0).soldatsAtacar();
+            exercits.get(1).rebreAtac(exercits.get(0));
+            exercits.get(1).soldatsAtacar();
+            exercits.get(0).rebreAtac(exercits.get(1));
+            pantalla.pause(TEMPSESPERA);
+
+            // Comprovar si s'han de reduïr les files
+
+            int minim = Math.min(exercits.get(0).getNumeroDeSoldats(),
+                                 exercits.get(1).getNumeroDeSoldats());
+
+            if (minim < FILESTERRENY) {
+                exercits.get(0).setFilesExercit(minim);
+                exercits.get(1).setFilesExercit(minim);
+            }
+
+        }
 
     }
 }
