@@ -168,7 +168,7 @@ public class Soldat {
     }
 
     /**
-     * Gira la imatge
+     * Gira la imatge.
      * @param imatge
      * @return
      */
