@@ -9,6 +9,8 @@ L'objectiu del programa és representar la batalla entre dos exercits diferents 
 * El mòdul s'imparteix en Java
 * L'única dependència és la llibreria de Java de l'ACM (http://cs.stanford.edu/people/eroberts/jtf/)
 
+Es pot veure un exemple del programa en execució en un [vídeo de Youtube](http://youtu.be/NuxVZj7TEWI)
+
 Formació inicial
 --------------------------------
 Al començament de la batalla cada exèrcit es posarà en files en un dels costats de la pantalla i es mourà en direcció a l'altre exèrcit. Per començar els exèrcits es dividiràn en 6 files en les que cada exèrcit hi posarà aleatòriament els seus soldats.
