@@ -1,8 +1,6 @@
 package net.xaviersala.Batalla;
 
 import java.awt.Image;
-import java.util.Random;
-
 import acm.graphics.GImage;
 import acm.graphics.GRectangle;
 
@@ -26,15 +24,15 @@ public class Soldat {
      * Imatge del soldat.
      */
     private GImage imatge;
-    /**
-     * Generador de números aleatòris.
-     */
-    private Random r;
 
     /**
-     * Defineix el destí del soldat.
+     * Defineix el destí X del soldat.
      */
-    private int desti;
+    private int destiX;
+    /**
+     * Defineix el destí Y del soldat.
+     */
+    private int destiY;
     /**
      * Direcció X en la que es mou el soldat.
      */
@@ -43,6 +41,10 @@ public class Soldat {
      * Direcció Y en la que es mou el soldat.
      */
     private int direccioY;
+    /**
+     * Cap a on mira la imatge. (1) Dreta (-1) Esquerra
+     */
+    private int mirantA;
 
     /**
      * Crea un soldat genèric.
@@ -59,10 +61,10 @@ public class Soldat {
      */
     public Soldat(final Image im) {
         imatge = new GImage(im);
-        r = new Random();
 
-        desti = (int) imatge.getX();
+        destiX = (int) imatge.getX();
         direccioX = 1;
+        mirantA = 1;
     }
 
     /**
@@ -80,6 +82,10 @@ public class Soldat {
 
     /**
      * Posiciona el soldat en la posició.
+     *
+     * Com que es mouen linealment el destí d'aquest soldat serà
+     * el del lloc en que l'haguem posicionat.
+     *
      * @param x posició x
      * @param y posició y
      */
@@ -87,6 +93,7 @@ public class Soldat {
         imatge.setLocation(x, y);
         direccioX = calculaDireccioX();
         direccioY = 0;
+        destiY = y;
     }
 
     /**
@@ -113,32 +120,67 @@ public class Soldat {
     }
 
     /**
-     * Mou el soldat en la direcció especificada.
+     * Mou el soldat cap al seu objectiu.
      *
-     * @return retorna un 0 si no es mou o un 1 si es mou
+     * Les variables direccioX i direccioY marquen en quina
+     * direcció s'ha de moure el soldat per arribar fins al
+     * destí. Quan aquestes dues variables siguin zero el
+     * soldat ja ha arribat a lloc
+     *
+     * @return retorna un 0 si el soldat no s'ha mogut
+     * o un 1 si s'ha mogut
      */
     public final int mou() {
 
-        imatge.move(direccioX * r.nextInt(VELOCITATMAXIMA), direccioY);
-        if (haArribat()) {
-            direccioX = 0;
+        imatge.move(direccioX * Aleatori.obtenir(VELOCITATMAXIMA),
+                direccioY * Aleatori.obtenir(VELOCITATMAXIMA));
+        direccioX = calculaDireccioX();
+        direccioY = calculaDireccioY();
+
+        // Si estem al destí les direccions seran zero...
+        if (direccioX + direccioY == 0) {
             return 0;
         }
         return 1;
     }
 
     /**
-     * Defineix quin és el destí del soldat.
+     * Defineix a on ha d'anar el soldat.
+     *
+     * Calcula la direcció cap on va el soldat agafant de referència
+     * el lloc on vol arribar. En cas de que la X canviï de direcció
+     * s'ha de girar la imatge perquè vol anar cap a l'altre costat.
      *
      * @param posicioFinal posició x de destí
      */
     public final void definirDesti(final int posicioFinal) {
-        desti = posicioFinal - (int) imatge.getWidth() / 2;
-        int direccioActual = direccioX;
+        destiX = posicioFinal - (int) imatge.getWidth() / 2;
         direccioX = calculaDireccioX();
-        if (direccioActual != direccioX) {
+        if (direccioX != mirantA) {
+            mirantA *= -1;
             flipHorizontal();
         }
+    }
+
+    /**
+     * Defineix a on ha d'anar el soldat.
+     *
+     * Fa servir la funció definirDesti(x) per determinar quin és el
+     * destí en l'eix de les x
+     *
+     * Quan direccioY és zero estem en càrrega de batalla i
+     * quan val una direcció és que s'està posicionant en formació
+     * per tornar a atacar
+     *
+     * @param posicioX posició X on volem arribar
+     * @param posicioY posició Y on volem arribar
+     */
+    public final void definirDesti(final int posicioX, final int posicioY) {
+
+        definirDesti(posicioX);
+
+        destiY = posicioY;
+        direccioY = calculaDireccioY();
     }
 
     /**
@@ -152,10 +194,36 @@ public class Soldat {
     private int calculaDireccioX() {
         int x = getPosicioXInt();
 
-        if ((desti - x) == 0) {
-            return direccioX;
+        if ((destiX - x) == 0) {
+            return 0;
         }
-        return Math.abs(desti - x) / (desti - x);
+
+        if (Math.abs(destiX - x) <= VELOCITATMAXIMA) {
+            imatge.setLocation(destiX, imatge.getY());
+            return 0;
+        }
+
+        return Math.abs(destiX - x) / (destiX - x);
+    }
+
+    /**
+     *
+     * Si està molt a prop s'hi posa i llestos.
+     *
+     * @return La direcció en que s'ha de moure
+     */
+    private int calculaDireccioY() {
+        int y = getPosicioYInt();
+
+        if ((destiY - y) == 0) {
+            return 0;
+        }
+
+        if (Math.abs(destiY - y) <= VELOCITATMAXIMA) {
+            imatge.setLocation(imatge.getX(), destiY);
+            return 0;
+        }
+        return Math.abs(destiY - y) / (destiY - y);
     }
 
     /**
@@ -170,13 +238,6 @@ public class Soldat {
      */
     private int getPosicioYInt() {
         return (int) imatge.getY();
-    }
-
-    /**
-     * @return retorna si el soldat ha arribat al destí.
-     */
-    private boolean haArribat() {
-        return (direccioX != calculaDireccioX());
     }
 
     /**
@@ -198,6 +259,16 @@ public class Soldat {
             }
         }
         imatge.setImage(new GImage(array).getImage());
+    }
+
+    /**
+     * @return Dades sobre el soldat.
+     */
+    public final String toString() {
+        return imatge.getX() + " " + imatge.getY() + " -> "
+                + destiX + "," + destiY + " ("
+                + direccioX + "," + direccioY + ")";
+
     }
 
 }

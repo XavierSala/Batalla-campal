@@ -1,7 +1,5 @@
 package net.xaviersala.Batalla;
 
-import java.util.Random;
-
 import acm.graphics.GImage;
 import acm.graphics.GLabel;
 import acm.program.GraphicsProgram;
@@ -66,7 +64,6 @@ public class App  extends GraphicsProgram {
     public final Exercit creaExercit(final String nom,
             final int numSoldats, final String[] fitxers) {
 
-        Random r = new Random();
         GImage[] imatges = new GImage[fitxers.length];
         int i = 0;
         for (String fitxer: fitxers) {
@@ -82,7 +79,7 @@ public class App  extends GraphicsProgram {
             if (fitxers.length == 0) {
                 deplom = new Soldat();
             } else {
-                int quina = r.nextInt(imatges.length);
+                int quina = Aleatori.obtenir(imatges.length);
                 deplom = new Soldat(
                         imatges[quina].getImage());
             }

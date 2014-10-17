@@ -2,7 +2,6 @@ package net.xaviersala.Batalla;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 /**
  * Camp de batalla.
@@ -61,7 +60,7 @@ public class CampdeBatalla {
             exercits.add(ex);
             ex.setMidaCampBatalla(pantalla.getWidth());
             ex.setPosicio(posicioi, posiciof);
-            ex.soldatsFormacio(filesTerreny);
+            ex.soldatsFormacioInicial(filesTerreny);
             pintaImatges(exercits.size() - 1);
         }
     }
@@ -91,7 +90,6 @@ public class CampdeBatalla {
      * trobin més fàcilment
      */
     public final void batalla() {
-        Random r = new Random();
 
         while (exercits.get(0).getNumeroDeSoldats() > 0
             && exercits.get(1).getNumeroDeSoldats() > 0) {
@@ -103,7 +101,6 @@ public class CampdeBatalla {
             pantalla.pause(TEMPSESPERA);
 
             // Comprovar si s'han de reduïr les files
-
             int minim = Math.min(exercits.get(0).getNumeroDeSoldats(),
                                  exercits.get(1).getNumeroDeSoldats());
 

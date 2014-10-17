@@ -2,7 +2,6 @@ package net.xaviersala.Batalla;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import acm.graphics.GImage;
 import acm.graphics.GRectangle;
@@ -48,10 +47,6 @@ public class Exercit {
     private int midaCampBatalla;
 
     /**
-     * Generador de números aleatòris.
-     */
-    private Random aleatori;
-    /**
      * Posicio des d'on s'inicia l'atac.
      */
     private int posicioOriginal;
@@ -59,6 +54,10 @@ public class Exercit {
      * Posicio final de l'atac.
      */
     private int posicioFinal;
+    /**
+     * Diu si està en formació o no.
+     */
+    private boolean formant;
 
     /**
      * Crea un exèrcit amb un identificador.
@@ -69,7 +68,7 @@ public class Exercit {
      * @param identificador nom de l'exèrcit
      */
     public Exercit(final String identificador) {
-        aleatori = new Random();
+
         if (identificador != null) {
             nom = identificador;
         } else {
@@ -183,6 +182,31 @@ public class Exercit {
      * corresponent.
      * @param files Files en les que s'ha de reorganitzar l'exèrcit
      */
+    public final void soldatsFormacioInicial(final int files) {
+        filesExercit = files;
+        int[] posicioEnLesFiles = new int[files];
+        int puntBase = 0;
+
+        int direccio = calculaDireccio();
+
+        if (direccio < 0) {
+            puntBase = midaCampBatalla - AMPLADAFILA;
+        }
+        for (Soldat s: soldats) {
+            int fila = Aleatori.obtenir(files);
+            s.posiciona(puntBase
+                    + direccio * posicioEnLesFiles[fila] * AMPLADAFILA,
+                    fila * ALTURAFILA);
+            posicioEnLesFiles[fila]++;
+        }
+        formant = false;
+    }
+
+    /**
+     * Posiciona els soldats en formació en el seu costat
+     * corresponent.
+     * @param files Files en les que s'ha de reorganitzar l'exèrcit
+     */
     public final void soldatsFormacio(final int files) {
         filesExercit = files;
         int[] posicioEnLesFiles = new int[files];
@@ -194,18 +218,19 @@ public class Exercit {
             puntBase = midaCampBatalla - AMPLADAFILA;
         }
         for (Soldat s: soldats) {
-            int fila = aleatori.nextInt(files);
-            s.posiciona(puntBase
+            int fila = Aleatori.obtenir(files);
+            s.definirDesti(puntBase
                     + direccio * posicioEnLesFiles[fila] * AMPLADAFILA,
                     fila * ALTURAFILA);
             posicioEnLesFiles[fila]++;
         }
+        formant = true;
     }
 
     /**
      * Definir el destí dels soldats en coordenades x.
      */
-    public final void soldatsDefinirDesti() {
+    public final void soldatsDefinirDestiX() {
         for (Soldat s: soldats) {
             s.definirDesti(posicioFinal);
         }
@@ -221,11 +246,14 @@ public class Exercit {
         }
 
         if (quants == 0) {
-            // No s'ha mogut ningú, per tant podem tornar
-            // a definirDesti()
-            intercanviaPosicions();
-            soldatsDefinirDesti();
-            soldatsFormacio(filesExercit);
+            // No s'ha mogut ningú, per tant canvi!
+            if (!formant) {
+                intercanviaPosicions();
+                soldatsFormacio(filesExercit);
+            } else {
+                formant = false;
+                soldatsDefinirDestiX();
+            }
 
         }
     }
@@ -294,7 +322,7 @@ public class Exercit {
             final int posiciof) {
         posicioOriginal = posicioi;
         posicioFinal = posiciof;
-        soldatsDefinirDesti();
+        soldatsDefinirDestiX();
     }
 
     /**
