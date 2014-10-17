@@ -36,9 +36,13 @@ public class Soldat {
      */
     private int desti;
     /**
-     * Direcció en la que es mou el soldat.
+     * Direcció X en la que es mou el soldat.
      */
-    private int direccio;
+    private int direccioX;
+    /**
+     * Direcció Y en la que es mou el soldat.
+     */
+    private int direccioY;
 
     /**
      * Crea un soldat genèric.
@@ -58,7 +62,7 @@ public class Soldat {
         r = new Random();
 
         desti = (int) imatge.getX();
-        direccio = 1;
+        direccioX = 1;
     }
 
     /**
@@ -81,7 +85,8 @@ public class Soldat {
      */
     public final void posiciona(final int x, final int y) {
         imatge.setLocation(x, y);
-        direccio = calculaDireccio();
+        direccioX = calculaDireccioX();
+        direccioY = 0;
     }
 
     /**
@@ -114,9 +119,9 @@ public class Soldat {
      */
     public final int mou() {
 
-        imatge.move(direccio * r.nextInt(VELOCITATMAXIMA), 0);
+        imatge.move(direccioX * r.nextInt(VELOCITATMAXIMA), direccioY);
         if (haArribat()) {
-            direccio = 0;
+            direccioX = 0;
             return 0;
         }
         return 1;
@@ -128,10 +133,10 @@ public class Soldat {
      * @param posicioFinal posició x de destí
      */
     public final void definirDesti(final int posicioFinal) {
-        desti = posicioFinal - (int) imatge.getWidth();
-        int direccioActual = direccio;
-        direccio = calculaDireccio();
-        if (direccioActual != direccio) {
+        desti = posicioFinal - (int) imatge.getWidth() / 2;
+        int direccioActual = direccioX;
+        direccioX = calculaDireccioX();
+        if (direccioActual != direccioX) {
             flipHorizontal();
         }
     }
@@ -144,27 +149,34 @@ public class Soldat {
      *
      * @return Calcula la direcció a partir de l'objectiu i la posició
      */
-    private int calculaDireccio() {
+    private int calculaDireccioX() {
         int x = getPosicioXInt();
 
         if ((desti - x) == 0) {
-            return direccio;
+            return direccioX;
         }
         return Math.abs(desti - x) / (desti - x);
     }
 
     /**
-     * @return Retorna la posició del soldat convertit a enters.
+     * @return Retorna la posició X del soldat convertit a enters.
      */
     private int getPosicioXInt() {
         return (int) imatge.getX();
     }
 
     /**
+     * @return Retorna la posició Y del soldat convertit a enters.
+     */
+    private int getPosicioYInt() {
+        return (int) imatge.getY();
+    }
+
+    /**
      * @return retorna si el soldat ha arribat al destí.
      */
     private boolean haArribat() {
-        return (direccio != calculaDireccio());
+        return (direccioX != calculaDireccioX());
     }
 
     /**

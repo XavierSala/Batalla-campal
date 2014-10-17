@@ -3,6 +3,7 @@ package net.xaviersala.Batalla;
 import java.util.Random;
 
 import acm.graphics.GImage;
+import acm.graphics.GLabel;
 import acm.program.GraphicsProgram;
 
 /**
@@ -48,6 +49,7 @@ public class App  extends GraphicsProgram {
         exercit = creaExercit("TrencaOssos", NUMEROSOLDATS, noms2);
         hastings.afegirExercit(exercit, getWidth(), MARGEINICIAL);
 
+        clicaPerComencar();
 
         hastings.batalla();
 
@@ -90,4 +92,17 @@ public class App  extends GraphicsProgram {
         return x;
 
     }
+
+    /**
+     * Clica per començar.
+     */
+    private void clicaPerComencar() {
+        GLabel label = new GLabel("Clica per començar");
+        double x = (getWidth() - label.getWidth()) / 2;
+        double y = (getHeight() + label.getAscent()) / 2;
+        add(label, x, y);
+        waitForClick();
+        remove(label);
+    }
+
 }
