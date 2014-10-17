@@ -35,21 +35,21 @@ public class App  extends GraphicsProgram {
      */
     public final void run() {
         setSize(AMPLADAPANTALLA, ALTURAPANTALLA);
-        CampdeBatalla hastings = new CampdeBatalla(this);
+        CampdeBatalla waterloo = new CampdeBatalla(this);
 
         String[] noms = {"soldat.png"};
         Exercit exercit = creaExercit("Imperi", NUMEROSOLDATS, noms);
-        hastings.afegirExercit(exercit, MARGEINICIAL, getWidth());
+        waterloo.afegirExercit(exercit, MARGEINICIAL, getWidth());
 
 
         String[] noms2 = {"guerrer2.png", "guerrer3.png",
                 "guerrer4.png", "guerrer5.png"};
         exercit = creaExercit("TrencaOssos", NUMEROSOLDATS, noms2);
-        hastings.afegirExercit(exercit, getWidth(), MARGEINICIAL);
+        waterloo.afegirExercit(exercit, getWidth(), MARGEINICIAL);
 
         clicaPerComencar();
 
-        hastings.batalla();
+        waterloo.batalla();
 
     }
 
