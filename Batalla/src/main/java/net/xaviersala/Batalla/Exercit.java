@@ -262,7 +262,7 @@ public class Exercit {
      * Obtenir un dels soldats de la llista o bé 'null' si en demanen
      * un que no hi és.
      *
-     * @param index Soldat que es vol obtenir
+     * @param index SoldatNormal que es vol obtenir
      * @return retorna el soldat
      */
     public final Soldat getSoldat(final int index) {
@@ -275,8 +275,8 @@ public class Exercit {
      * Comprova si el soldat especificat xoca amb algun
      * dels soldats de la llista i si hi n'hi ha algun
      * l'esborra.
-     * @param jo Soldat actual
-     * @param enemic Soldat enemic
+     * @param jo SoldatNormal actual
+     * @param enemic SoldatNormal enemic
      * @return posicioDelSoldat.
      */
     private boolean rebreAtac(final Soldat jo, final Soldat enemic) {

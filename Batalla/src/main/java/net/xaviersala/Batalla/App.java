@@ -38,13 +38,15 @@ public class App  extends GraphicsProgram {
         CampdeBatalla waterloo = new CampdeBatalla(this);
 
         String[] noms = {"soldat.png"};
-        Exercit exercit = creaExercit("Imperi", NUMEROSOLDATS, noms);
+        String[] herois1 = {"soldat-hero.png", "soldat-hero2.png"};
+        Exercit exercit = creaExercit("Imperi", NUMEROSOLDATS, noms, herois1);
         waterloo.afegirExercit(exercit, MARGEINICIAL, getWidth());
 
 
-        String[] noms2 = {"guerrer2.png", "guerrer3.png",
-                "guerrer4.png", "guerrer5.png"};
-        exercit = creaExercit("TrencaOssos", NUMEROSOLDATS, noms2);
+        String[] noms2 = {"guerrer1.png", "guerrer2.png", "guerrer3.png",
+                "guerrer4.png", "guerrer5.png", "guerrer6.png"};
+        String[] herois2 = {"guerrer-hero.png", "guerrer-hero2.png"};
+        exercit = creaExercit("TrencaOssos", NUMEROSOLDATS, noms2, herois2);
         waterloo.afegirExercit(exercit, getWidth(), MARGEINICIAL);
 
         clicaPerComencar();
@@ -59,10 +61,12 @@ public class App  extends GraphicsProgram {
     * @param nom Nom de l'exèrcit
     * @param numSoldats Número de soldats
     * @param fitxers Fitxers d'imatges a fer servir en aquest exèrcit
+    * @param herois Fitxers d'imatges amb els herois
     * @return Retorna l'exèrcit creat
     */
     public final Exercit creaExercit(final String nom,
-            final int numSoldats, final String[] fitxers) {
+            final int numSoldats, final String[] fitxers,
+            final String[] herois) {
 
         GImage[] imatges = new GImage[fitxers.length];
         int i = 0;
@@ -73,18 +77,25 @@ public class App  extends GraphicsProgram {
 
         Exercit x = new Exercit(nom, AMPLADAPANTALLA);
 
+        // Allistar Herois
+        for (i = 0; i < 5; i++) {
+            int tria = Aleatori.obtenir(herois.length);
+            x.allistarSoldat(new SoldatHeroi(
+                    new GImage(herois[tria]).getImage()));
+        }
         // Allistar soldats
-        Soldat deplom = null;
+        SoldatNormal deplom = null;
         for (int s = 0; s < numSoldats; s++) {
             if (fitxers.length == 0) {
-                deplom = new Soldat();
+                deplom = new SoldatNormal();
             } else {
                 int quina = Aleatori.obtenir(imatges.length);
-                deplom = new Soldat(
+                deplom = new SoldatNormal(
                         imatges[quina].getImage());
             }
             x.allistarSoldat(deplom);
         }
+
 
         return x;
 
