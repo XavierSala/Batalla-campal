@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import acm.graphics.GImage;
-import acm.graphics.GRectangle;
 
 /**
  * Exèrcit de Soldats preparat per atacar.
@@ -192,6 +191,7 @@ public class Exercit {
         if (direccio < 0) {
             puntBase = midaCampBatalla - AMPLADAFILA;
         }
+
         for (Soldat s: soldats) {
             int fila = Aleatori.obtenir(files);
             s.posiciona(puntBase
@@ -271,19 +271,7 @@ public class Exercit {
         }
         return null;
     }
-    /**
-     * Comprova si el soldat especificat xoca amb algun
-     * dels soldats de la llista i si hi n'hi ha algun
-     * l'esborra.
-     * @param jo SoldatNormal actual
-     * @param enemic SoldatNormal enemic
-     * @return posicioDelSoldat.
-     */
-    private boolean rebreAtac(final Soldat jo, final Soldat enemic) {
-        GRectangle soldatAmic = jo.getPosicio();
-        GRectangle soldatEnemic = enemic.getPosicio();
-        return soldatEnemic.intersects(soldatAmic);
-    }
+
 
     /**
      * L'exèrcit actual rep un atac de l'altre exèrcit.
@@ -297,8 +285,10 @@ public class Exercit {
 
         for (Soldat enemic: enemics.getSoldats()) {
             for (Soldat soldat: soldats) {
-                if (rebreAtac(soldat, enemic)) {
-                    eliminar = soldat;
+                if (soldat.rebreAtac(enemic)) {
+                    if (soldat.haMort()) {
+                        eliminar = soldat;
+                    }
                     break;
                 }
             }

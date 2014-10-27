@@ -68,6 +68,20 @@ public interface Soldat {
      void definirDesti(int posicioX);
 
      /**
+      * Comprova si el soldat especificat ha tocat al
+      * soldat actual.
+      *
+      * @param enemic SoldatNormal enemic
+      * @return posicioDelSoldat.
+      */
+     boolean rebreAtac(final Soldat enemic);
+
+     /**
+      * @return Determina si el soldat està mort o no.
+      */
+     boolean haMort();
+
+     /**
       * @return Obtenir la imatge del soldat
       */
      GImage getImatge();

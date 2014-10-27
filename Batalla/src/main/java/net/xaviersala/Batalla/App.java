@@ -10,6 +10,10 @@ import acm.program.GraphicsProgram;
  */
 public class App  extends GraphicsProgram {
     /**
+     * Número d'herois a crear.
+     */
+    private static final int NUMEROHEROIS = 5;
+    /**
      * Marge per separar una mica els soldats del costat.
      */
     private static final int MARGEINICIAL = 10;
@@ -38,15 +42,21 @@ public class App  extends GraphicsProgram {
         CampdeBatalla waterloo = new CampdeBatalla(this);
 
         String[] noms = {"soldat.png"};
-        String[] herois1 = {"soldat-hero.png", "soldat-hero2.png"};
-        Exercit exercit = creaExercit("Imperi", NUMEROSOLDATS, noms, herois1);
+        String[] herois1 = {"soldat-hero.png"};
+        String fort1 = "soldat-hero2.png";
+        String rei1 = "soldat-cap.png";
+        Exercit exercit = creaExercit("Imperi", NUMEROSOLDATS,
+                noms, herois1, fort1, rei1);
         waterloo.afegirExercit(exercit, MARGEINICIAL, getWidth());
 
 
         String[] noms2 = {"guerrer1.png", "guerrer2.png", "guerrer3.png",
                 "guerrer4.png", "guerrer5.png", "guerrer6.png"};
         String[] herois2 = {"guerrer-hero.png", "guerrer-hero2.png"};
-        exercit = creaExercit("TrencaOssos", NUMEROSOLDATS, noms2, herois2);
+        String fort2 = "guerrer-dur.png";
+        String rei2 = "guerrer-cap.png";
+        exercit = creaExercit("TrencaOssos", NUMEROSOLDATS,
+                noms2, herois2, fort2, rei2);
         waterloo.afegirExercit(exercit, getWidth(), MARGEINICIAL);
 
         clicaPerComencar();
@@ -62,12 +72,31 @@ public class App  extends GraphicsProgram {
     * @param numSoldats Número de soldats
     * @param fitxers Fitxers d'imatges a fer servir en aquest exèrcit
     * @param herois Fitxers d'imatges amb els herois
+    * @param fort Soldat fort
+    * @param rei1 rei de l'exèrcit
     * @return Retorna l'exèrcit creat
     */
     public final Exercit creaExercit(final String nom,
             final int numSoldats, final String[] fitxers,
-            final String[] herois) {
+            final String[] herois, final String fort, final String rei1) {
 
+
+
+        Exercit x = new Exercit(nom, AMPLADAPANTALLA);
+
+        // Apuntar el rei
+        x.allistarSoldat(new SoldatCap(
+                new GImage(rei1).getImage()));
+        // Allistar fort
+        x.allistarSoldat(new SoldatFort(
+                new GImage(fort).getImage()));
+        // Allistar Herois
+        for (int i = 0; i < NUMEROHEROIS; i++) {
+            int tria = Aleatori.obtenir(herois.length);
+            x.allistarSoldat(new SoldatHeroi(
+                    new GImage(herois[tria]).getImage()));
+        }
+        // Allistar soldats
         GImage[] imatges = new GImage[fitxers.length];
         int i = 0;
         for (String fitxer: fitxers) {
@@ -75,15 +104,6 @@ public class App  extends GraphicsProgram {
             i++;
         }
 
-        Exercit x = new Exercit(nom, AMPLADAPANTALLA);
-
-        // Allistar Herois
-        for (i = 0; i < 5; i++) {
-            int tria = Aleatori.obtenir(herois.length);
-            x.allistarSoldat(new SoldatHeroi(
-                    new GImage(herois[tria]).getImage()));
-        }
-        // Allistar soldats
         SoldatNormal deplom = null;
         for (int s = 0; s < numSoldats; s++) {
             if (fitxers.length == 0) {

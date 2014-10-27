@@ -15,6 +15,18 @@ import acm.graphics.GRectangle;
 public abstract class SoldatGlobal implements Soldat {
 
     /**
+     * Vida del soldat.
+     */
+    private int vida;
+
+    /**
+     * @param vides La vida a posar
+     */
+    public final void setVida(final int vides) {
+        this.vida = vides;
+    }
+
+    /**
      * Imatge del soldat.
      */
     private GImage imatge;
@@ -82,6 +94,8 @@ public abstract class SoldatGlobal implements Soldat {
             destiX = (int) imatge.getX();
             direccioX = 1;
             mirantA = 1;
+
+            vida = 1;
     }
 
     /**
@@ -129,6 +143,30 @@ public abstract class SoldatGlobal implements Soldat {
      * @return Si s'ha mogut retorna 1 i sinó 0
      */
     public abstract int mou();
+
+    /**
+     * Comprova si el soldat especificat ha tocat al
+     * soldat actual.
+     *
+     * @param enemic SoldatNormal enemic
+     * @return posicioDelSoldat.
+     */
+    public final boolean rebreAtac(final Soldat enemic) {
+        GRectangle jo = getPosicio();
+        GRectangle soldatEnemic = enemic.getPosicio();
+        boolean resultat =  soldatEnemic.intersects(jo);
+        if (resultat) {
+            vida--;
+        }
+        return resultat;
+    }
+
+    /**
+     * @return determina si el soldat està mort
+     */
+    public final boolean haMort() {
+        return (vida <= 0);
+    }
 
     /**
      * Defineix a on ha d'anar el soldat.

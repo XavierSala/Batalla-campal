@@ -18,6 +18,11 @@ import java.awt.Image;
 public class SoldatHeroi extends SoldatGlobal {
 
     /**
+     * Files en que forma l'exercit per defecte.
+     */
+    private static final int FILESPERDEFECTE = 6;
+
+    /**
      * Valor màxim per fer la provabilitat.
      */
     private static final int VALORMAXIM = 100;
@@ -44,7 +49,7 @@ public class SoldatHeroi extends SoldatGlobal {
      */
     public SoldatHeroi(final Image dibuix) {
         super(dibuix);
-        numeroDeFiles = 6;
+        numeroDeFiles = FILESPERDEFECTE;
     }
 
     /* (non-Javadoc)
@@ -103,10 +108,12 @@ public class SoldatHeroi extends SoldatGlobal {
             puja -= 1;
         }
 
-
         int destiY = getDestiY() + puja * 78;
         if (destiY < 0) {
             destiY = 0;
+        }
+        if (numeroDeFiles == FILESPERDEFECTE) {
+            destiY = (numeroDeFiles - 1) * 78;
         }
 
         setDestiY(destiY);
