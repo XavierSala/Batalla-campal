@@ -10,6 +10,10 @@ import acm.program.GraphicsProgram;
  */
 public class App  extends GraphicsProgram {
     /**
+     * Número de soldats forts.
+     */
+    private static final int NUMEROFORTS = 2;
+    /**
      * Número d'herois a crear.
      */
     private static final int NUMEROHEROIS = 5;
@@ -84,12 +88,19 @@ public class App  extends GraphicsProgram {
 
         Exercit x = new Exercit(nom, AMPLADAPANTALLA);
 
+//        // Canó
+//        x.allistarSoldat(new SoldatCano(
+//                new GImage("cano.png").getImage(), "bala.png",
+//                AMPLADAPANTALLA, ALTURAPANTALLA));
+
         // Apuntar el rei
         x.allistarSoldat(new SoldatCap(
                 new GImage(rei1).getImage()));
         // Allistar fort
-        x.allistarSoldat(new SoldatFort(
-                new GImage(fort).getImage()));
+        for (int i = 0; i < NUMEROFORTS; i++) {
+            x.allistarSoldat(new SoldatFort(
+                    new GImage(fort).getImage()));
+        }
         // Allistar Herois
         for (int i = 0; i < NUMEROHEROIS; i++) {
             int tria = Aleatori.obtenir(herois.length);

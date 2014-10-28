@@ -12,6 +12,11 @@ import java.awt.Image;
  *
  */
 public class SoldatCap extends SoldatGlobal {
+    /**
+     * Velocitat a la que es mou el rei.
+     */
+
+    private static final int VELOCITATMAXIMA = 15;
 
     /**
      * Crea un soldat rei.
@@ -19,7 +24,7 @@ public class SoldatCap extends SoldatGlobal {
      */
     public SoldatCap(final Image dibuix) {
         super(dibuix);
-        // TODO Auto-generated constructor stub
+        setDestiY(0);
     }
 
     /**
@@ -30,6 +35,23 @@ public class SoldatCap extends SoldatGlobal {
      */
     @Override
     public final int mou() {
+
+        int dirY = getDireccioY();
+
+        getImatge().move(0,
+                dirY * Aleatori.obtenir(VELOCITATMAXIMA));
+
+        setDireccioY(calculaDireccioY(VELOCITATMAXIMA));
+
+        // Si estem al destí les direccions seran zero...
+        if (getDireccioY() == 0) {
+            if (getDestiY() == 0) {
+                setDestiY(400);
+            } else {
+                setDestiY(0);
+            }
+
+        }
         return 0;
     }
 

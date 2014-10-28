@@ -18,6 +18,11 @@ import java.awt.Image;
 public class SoldatHeroi extends SoldatGlobal {
 
     /**
+     * Mida de la fila.
+     */
+    private static final int MIDAFILA = 78;
+
+    /**
      * Files en que forma l'exercit per defecte.
      */
     private static final int FILESPERDEFECTE = 6;
@@ -108,16 +113,23 @@ public class SoldatHeroi extends SoldatGlobal {
             puja -= 1;
         }
 
-        int destiY = getDestiY() + puja * 78;
+        int destiY = getDestiY() + puja * MIDAFILA;
         if (destiY < 0) {
             destiY = 0;
         }
-        if (numeroDeFiles == FILESPERDEFECTE) {
-            destiY = (numeroDeFiles - 1) * 78;
+        if (destiY >= numeroDeFiles * MIDAFILA) {
+            destiY = (numeroDeFiles - 1) * MIDAFILA;
         }
 
         setDestiY(destiY);
         setDireccioY(calculaDireccioY(VELOCITATMAXIMA));
+    }
+
+    /**
+     * @param numero the numeroDeFiles to set
+     */
+    public final void setNumeroDeFiles(final int numero) {
+        this.numeroDeFiles = numero;
     }
 
 

@@ -222,6 +222,10 @@ public class Exercit {
             s.definirDesti(puntBase
                     + direccio * posicioEnLesFiles[fila] * AMPLADAFILA,
                     fila * ALTURAFILA);
+            if (s instanceof SoldatHeroi) {
+                SoldatHeroi tmp  = (SoldatHeroi) s;
+                tmp.setNumeroDeFiles(filesExercit);
+            }
             posicioEnLesFiles[fila]++;
         }
         formant = true;
