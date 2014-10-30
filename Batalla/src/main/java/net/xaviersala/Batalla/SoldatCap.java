@@ -6,7 +6,8 @@ import java.awt.Image;
  * Defineix un soldat que és el cap de l'exèrcit.
  *
  * La idea és que no ataqui mai sinó que es quedi
- * pel darrera dels seus soldats
+ * pel darrera dels seus soldats pujant amunt i
+ * avall
  *
  * @author xavier
  *
@@ -19,11 +20,17 @@ public class SoldatCap extends SoldatGlobal {
     private static final int VELOCITATMAXIMA = 15;
 
     /**
+     * Posició inferior a on va.
+     */
+    private final int puntInferior;
+    /**
      * Crea un soldat rei.
      * @param dibuix Imatge del soldat
+     * @param alturapantalla Alçada del terreny de batalla
      */
-    public SoldatCap(final Image dibuix) {
+    public SoldatCap(final Image dibuix, final int alturapantalla) {
         super(dibuix);
+        puntInferior = alturapantalla - dibuix.getHeight(null);
         setDestiY(0);
     }
 
@@ -46,7 +53,7 @@ public class SoldatCap extends SoldatGlobal {
         // Si estem al destí les direccions seran zero...
         if (getDireccioY() == 0) {
             if (getDestiY() == 0) {
-                setDestiY(400);
+                setDestiY(puntInferior);
             } else {
                 setDestiY(0);
             }

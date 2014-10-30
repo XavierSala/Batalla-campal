@@ -31,18 +31,20 @@ public class CampdeBatalla {
     private List<Exercit> exercits;
 
     /**
-     * Pantalla on pintar.
+     * Amplada del camp de batalla.
      */
-    private App pantalla;
+    private int ampladaCamp;
 
     /**
      * Crea el camp de batalla i l'associa a el Canvas actual.
      *
-     * @param pant Canvas on pintar els soldats
+     * @param alturapantalla Altura del terreny de batalla
+     * @param ampladapantalla Amplada del terreny de batalla
      */
 
-    public CampdeBatalla(final App pant) {
-        pantalla = pant;
+    public CampdeBatalla(
+            final int ampladapantalla, final int alturapantalla) {
+        ampladaCamp = ampladapantalla;
         filesTerreny = FILESTERRENY;
         exercits = new ArrayList<Exercit>();
     }
@@ -58,23 +60,9 @@ public class CampdeBatalla {
             final int posicioi, final int posiciof) {
         if (ex != null) {
             exercits.add(ex);
-            ex.setMidaCampBatalla(pantalla.getWidth());
+            ex.setMidaCampBatalla(ampladaCamp);
             ex.setPosicio(posicioi, posiciof);
             ex.soldatsFormacioInicial(filesTerreny);
-            pintaImatges(exercits.size() - 1);
-        }
-    }
-
-    /**
-     * Pinta les imatges d'un exèrcit en el Canvas.
-     *
-     * @param numExercit Número d'exèrcit
-     */
-    private void pintaImatges(final int numExercit) {
-
-        List<Soldat> imatges = exercits.get(numExercit).getSoldats();
-        for (Soldat un : imatges) {
-            pantalla.add(un.getImatge());
         }
     }
 
@@ -98,7 +86,8 @@ public class CampdeBatalla {
             exercits.get(1).rebreAtac(exercits.get(0));
             exercits.get(1).soldatsAtacar();
             exercits.get(0).rebreAtac(exercits.get(1));
-            pantalla.pause(TEMPSESPERA);
+            // pantalla.pause(TEMPSESPERA);
+            espera(TEMPSESPERA);
 
             // Comprovar si s'han de reduïr les files
             int minim = Math.min(exercits.get(0).getNumeroDeSoldats(),
@@ -111,5 +100,18 @@ public class CampdeBatalla {
 
         }
 
+    }
+
+    /**
+     * @param tempsespera2 Temps en que el thread ha d'estar aturat.
+     *
+     */
+    private void espera(final int tempsespera2) {
+        try {
+            Thread.sleep(tempsespera2);
+        } catch (InterruptedException e) {
+            // Problemes ...
+            e.printStackTrace();
+        }
     }
 }

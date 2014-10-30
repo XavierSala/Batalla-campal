@@ -1,5 +1,7 @@
 package net.xaviersala.Batalla;
 
+import java.util.List;
+
 import acm.graphics.GImage;
 import acm.graphics.GLabel;
 import acm.program.GraphicsProgram;
@@ -43,12 +45,14 @@ public class App  extends GraphicsProgram {
      */
     public final void run() {
         setSize(AMPLADAPANTALLA, ALTURAPANTALLA);
-        CampdeBatalla waterloo = new CampdeBatalla(this);
+        CampdeBatalla waterloo = new CampdeBatalla(AMPLADAPANTALLA,
+                ALTURAPANTALLA);
 
         String[] noms = {"soldat.png"};
         String[] herois1 = {"soldat-hero.png"};
         String fort1 = "soldat-hero2.png";
         String rei1 = "soldat-cap.png";
+
         Exercit exercit = creaExercit("Imperi", NUMEROSOLDATS,
                 noms, herois1, fort1, rei1);
         waterloo.afegirExercit(exercit, MARGEINICIAL, getWidth());
@@ -59,6 +63,7 @@ public class App  extends GraphicsProgram {
         String[] herois2 = {"guerrer-hero.png", "guerrer-hero2.png"};
         String fort2 = "guerrer-dur.png";
         String rei2 = "guerrer-cap.png";
+
         exercit = creaExercit("TrencaOssos", NUMEROSOLDATS,
                 noms2, herois2, fort2, rei2);
         waterloo.afegirExercit(exercit, getWidth(), MARGEINICIAL);
@@ -89,13 +94,13 @@ public class App  extends GraphicsProgram {
         Exercit x = new Exercit(nom, AMPLADAPANTALLA);
 
 //        // Canó
-//        x.allistarSoldat(new SoldatCano(
+//         x.allistarSoldat(new SoldatCano(
 //                new GImage("cano.png").getImage(), "bala.png",
 //                AMPLADAPANTALLA, ALTURAPANTALLA));
 
         // Apuntar el rei
         x.allistarSoldat(new SoldatCap(
-                new GImage(rei1).getImage()));
+                new GImage(rei1).getImage(), ALTURAPANTALLA));
         // Allistar fort
         for (int i = 0; i < NUMEROFORTS; i++) {
             x.allistarSoldat(new SoldatFort(
@@ -127,10 +132,25 @@ public class App  extends GraphicsProgram {
             x.allistarSoldat(deplom);
         }
 
+        // Pintar l'exèrcit...
+        pintaImatges(x);
 
         return x;
 
     }
+
+    /**
+     * Pintar l'exèrcit per pantalla.
+     * @param ex exèrcit a pintar
+     */
+    private void pintaImatges(final Exercit ex) {
+
+        List<Soldat> imatges = ex.getSoldats();
+        for (Soldat un : imatges) {
+            add(un.getImatge());
+        }
+    }
+
 
     /**
      * Clica per començar.
