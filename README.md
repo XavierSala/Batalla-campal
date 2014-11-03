@@ -41,3 +41,14 @@ Final del joc
 El joc acabarà quan un dels dos exèrcits es quedi sense soldats
 
 ![Final de la batalla](batalla4.png)
+
+Nous soldats
+----------------------
+Afegits nous soldats fent servir herència: 
+
+* Herois: Es mouen d'una fila a una altra
+* Reis: Es mouen sempre per la darrera fila (no sigui que els matin ;-) )
+* Forts: Necessiten ser tocats tres vegades abans de morir
+* 
+![Nous soldats](batalla5.png)
+
