@@ -26,7 +26,7 @@ public class App  extends GraphicsProgram {
     /**
      * Altura de la pantalla.
      */
-    private static final int ALTURAPANTALLA = 500;
+    private static final int ALTURAPANTALLA = 550;
     /**
      * Amplada de la pantalla.
      */
@@ -163,5 +163,15 @@ public class App  extends GraphicsProgram {
         waitForClick();
         remove(label);
     }
+
+    /**
+     * Programa principal.
+     * @param args no se'n reben...
+     */
+    public static void main(final String[] args) {
+
+        new App().start(args);
+    }
+
 
 }

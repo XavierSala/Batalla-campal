@@ -1,0 +1,3 @@
+Manifest-Version: 1.0
+Main-Class: net.xaviersala.Batalla.App
+Class-Path: acm.jar
