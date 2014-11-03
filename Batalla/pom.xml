@@ -4,7 +4,7 @@
 
   <groupId>net.xaviersala</groupId>
   <artifactId>Batalla</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>0.0.2-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>Batalla</name>
@@ -22,9 +22,20 @@
       <scope>test</scope>
     </dependency>
     <dependency>
+      <groupId>org.hamcrest</groupId>
+      <artifactId>hamcrest-all</artifactId>
+      <version>1.3</version>
+    </dependency>
+    <dependency>
       <groupId>graphics</groupId>
       <artifactId>acm</artifactId>
       <version>1.0</version>
     </dependency>
   </dependencies>
+  <repositories>
+    <repository>
+      <id>Local</id>
+      <url>file://{basedir}/repository</url>
+    </repository>
+  </repositories>
 </project>
