@@ -1,5 +1,7 @@
 package net.xaviersala.Batalla;
 
+import java.awt.Frame;
+
 import acm.graphics.GImage;
 import acm.graphics.GLabel;
 import acm.program.GraphicsProgram;
@@ -16,7 +18,7 @@ public class App  extends GraphicsProgram {
     /**
      * Altura de la pantalla.
      */
-    private static final int ALTURAPANTALLA = 500;
+    private static final int ALTURAPANTALLA = 550;
     /**
      * Amplada de la pantalla.
      */
@@ -51,6 +53,14 @@ public class App  extends GraphicsProgram {
 
         waterloo.batalla();
 
+    }
+
+    public void init() {
+        Frame[] frames = Frame.getFrames();
+        for (Frame frame : frames) {
+            frame.setMenuBar(null);
+            frame.pack();
+        }
     }
 
    /**
@@ -101,5 +111,15 @@ public class App  extends GraphicsProgram {
         waitForClick();
         remove(label);
     }
+
+    /**
+     * Programa principal.
+     * @param args no se'n reben...
+     */
+    public static void main(final String[] args) {
+
+        new App().start(args);
+    }
+
 
 }
