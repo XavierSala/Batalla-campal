@@ -11,6 +11,8 @@ L'objectiu del programa és representar la batalla entre dos exercits diferents 
 
 Es pot veure un exemple del programa en execució en un [vídeo de Youtube](http://youtu.be/Nh2wZ2qLeB8)
 
+O bé podeu descarregar la carpeta "html" i obrir index.html amb un navegador que tingui el plugin de Java o bé executar "appletviewer index.html"
+
 Formació inicial
 --------------------------------
 Al començament de la batalla cada exèrcit es posarà en files en un dels costats de la pantalla i es mourà en direcció a l'altre exèrcit. Per començar els exèrcits es dividiràn en 6 files en les que cada exèrcit hi posarà aleatòriament els seus soldats.
