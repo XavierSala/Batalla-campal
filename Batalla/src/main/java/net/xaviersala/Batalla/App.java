@@ -1,7 +1,5 @@
 package net.xaviersala.Batalla;
 
-import java.awt.Frame;
-
 import acm.graphics.GImage;
 import acm.graphics.GLabel;
 import acm.program.GraphicsProgram;
@@ -55,13 +53,6 @@ public class App  extends GraphicsProgram {
 
     }
 
-    public void init() {
-        Frame[] frames = Frame.getFrames();
-        for (Frame frame : frames) {
-            frame.setMenuBar(null);
-            frame.pack();
-        }
-    }
 
    /**
     * Crea un exèrcit a partir de les dades que se li introdueixen.

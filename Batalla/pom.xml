@@ -88,7 +88,7 @@
     <repositories>
   <repository>
     <id>Local</id>
-    <url>file://{basedir}/repository</url>
+    <url>file://${basedir}/repository</url>
   </repository>
   </repositories>
 </project>
