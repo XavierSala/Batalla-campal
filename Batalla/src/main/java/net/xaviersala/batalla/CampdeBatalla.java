@@ -21,9 +21,9 @@ public class CampdeBatalla {
   private static final int FILESTERRENY = 6;
 
   /**
-   * Numero de files del camp de batalla.
+   * Numero de files inicials del camp de batalla.
    */
-  private int filesTerreny;
+  private final int filesInicialsTerreny;
 
   /**
    * Llista d'exèrcits.
@@ -46,7 +46,7 @@ public class CampdeBatalla {
 
   public CampdeBatalla(final int ampladapantalla, final int alturapantalla) {
     ampladaCamp = ampladapantalla;
-    filesTerreny = FILESTERRENY;
+    filesInicialsTerreny = FILESTERRENY;
     exercits = new ArrayList<Exercit>();
   }
 
@@ -66,7 +66,7 @@ public class CampdeBatalla {
       exercits.add(ex);
       ex.setMidaCampBatalla(ampladaCamp);
       ex.setPosicio(posicioi, posiciof);
-      ex.soldatsFormacioInicial(filesTerreny);
+      ex.soldatsFormacioInicial(filesInicialsTerreny);
     }
   }
 

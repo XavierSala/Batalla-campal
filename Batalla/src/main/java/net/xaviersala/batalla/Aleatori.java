@@ -13,7 +13,7 @@ public final class Aleatori {
   /**
    * Iniciar el generador.
    */
-  private static Random r = new Random();
+  private static Random generador = new Random();
 
   /**
    * No es crea.
@@ -29,7 +29,7 @@ public final class Aleatori {
    * @return el resultat
    */
   public static int obtenir(final int max) {
-    return r.nextInt(max);
+    return generador.nextInt(max);
   }
 
 }

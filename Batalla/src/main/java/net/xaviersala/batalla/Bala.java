@@ -1,5 +1,6 @@
 package net.xaviersala.batalla;
 
+import acm.graphics.GContainer;
 import acm.graphics.GImage;
 
 import java.awt.Image;
@@ -20,14 +21,6 @@ public class Bala {
    * Imatge de la bala.
    */
   private GImage imatge;
-
-  /**
-   * Retorna la imatge de la bala.
-   * @return the imatge
-   */
-  public final GImage getImatge() {
-    return imatge;
-  }
 
   /**
    * Destí X.
@@ -69,7 +62,7 @@ public class Bala {
     destiX = destix;
     destiY = destiy;
 
-    int distancia = calculaDistancia();
+    final int distancia = calculaDistancia();
     direccioX = (destiX - imatge.getX()) / distancia;
     direccioY = (destiY - imatge.getY()) / distancia;
   }
@@ -81,7 +74,8 @@ public class Bala {
    */
   public final int mou() {
 
-    getImatge().move(direccioX * VELOCITATMAXIMA, direccioY * VELOCITATMAXIMA);
+    int retorn = 1;
+    imatge.move(direccioX * VELOCITATMAXIMA, direccioY * VELOCITATMAXIMA);
 
     if (calculaDistancia() < VELOCITATMAXIMA) {
       //
@@ -91,33 +85,50 @@ public class Bala {
 
         GImage explota = new GImage("explosio.png", imatge.getX(),
             imatge.getY());
-        imatge.getParent().add(explota);
-        imatge.getParent().remove(imatge);
+        final GContainer pissarra = imatge.getParent();
+        pissarra.add(explota);
+        pissarra.remove(imatge);
         imatge = explota;
         direccioX = 0;
         direccioY = 0;
       }
 
-      return 0;
+      retorn = 0;
     }
 
-    return 1;
+    return retorn;
   }
 
   /**
    * @return determina si la bala està explotant.
    */
   public final boolean explota() {
-    return (direccioX == 0 && direccioY == 0);
+    return direccioX == 0 && direccioY == 0;
   }
 
   /**
    * @return Distància de la bala al seu destí.
    */
   private int calculaDistancia() {
-    int dirX = (int) (destiX - imatge.getX());
-    int dirY = (int) (destiY - imatge.getY());
+    final int dirX = (int) (destiX - imatge.getX());
+    final int dirY = (int) (destiY - imatge.getY());
     return (int) Math.sqrt(dirX * dirX + dirY * dirY);
+  }
+
+  /**
+   * Retorna la imatge de la bala.
+   * @return the imatge
+   */
+  public final GImage getImatge() {
+    return imatge;
+  }
+
+  /**
+   * Posar la imatge de la bala.
+   * @param ima Imatge de la bala
+   */
+  public void setImatge(final GImage ima) {
+    imatge = ima;
   }
 
 }
