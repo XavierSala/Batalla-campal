@@ -51,6 +51,10 @@ Afegits nous soldats fent servir herència:
 * Herois: Es mouen d'una fila a una altra
 * Reis: Es mouen sempre per la darrera fila (no sigui que els matin ;-) )
 * Forts: Necessiten ser tocats tres vegades abans de morir
-* 
+*
+![Exemple](https://raw.githubusercontent.com/utrescu/Batalla-campal/Nous-Soldats/batalla-herencia.png)
+
+Captura:
+
 ![Nous soldats](batalla5.png)
 
