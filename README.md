@@ -11,6 +11,38 @@ L'objectiu del programa és representar la batalla entre dos exercits diferents 
 
 Es pot veure un exemple del programa en execució en un [vídeo de Youtube](http://youtu.be/hspq83vK7-Y)
 
+
+Creació del programa
+------------------------
+Per crear el programa cal tenir *Java* instal·lat en el sistema així com una eina de construcció de projectes (*Maven* o *Gradle*)
+
+### Construir el projecte amb Maven
+El projecte de Maven està pensat per crear un paquet amb totes les dependències a dins.
+
+    $ mvn package
+
+El programa (amb extensió *.jar) estarà en el directori *target*
+
+    $ cd target
+    $ ls Batalla-0.0.1-SNAPSHOT.jar
+
+### Construir el projecte amb Gradle
+El projecte amb Gradle també està pensat per crear un jar amb totes les dependències. Per crear-lo només cal executar:
+
+    $ gradle build
+
+El programa (amb extensió *.jar) estarà en el directori *build/libs*
+
+    $ cd build/libs
+    $ ls Batalla-0.0.2-SNAPSHOT.jar
+
+### Executar el programa
+Per executar el programa només cal invocar-lo en la JVM:
+
+    $ java -jar Batalla-0.0.2-SNAPSHOT.jar
+
+En alguns sistemes (com Windows) n'hi ha prou amb fer doble clic sobre el programa. 
+
 Formació inicial
 --------------------------------
 Al començament de la batalla cada exèrcit es posarà en files en un dels costats de la pantalla i es mourà en direcció a l'altre exèrcit. Per començar els exèrcits es dividiràn en 6 files en les que cada exèrcit hi posarà aleatòriament els seus soldats.
