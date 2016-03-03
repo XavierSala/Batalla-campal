@@ -24,10 +24,9 @@ dependencies {
 jar {
     manifest {        
     	attributes("Implementation-Title": project.name,
-        		   "Implementation-Version": version,
-        		   "Main-Class": "net.xaviersala.Batalla.App",
-        		   "Class-Path": "acm.jar"
-        )    	
+        	   "Implementation-Version": version,
+        	   "Main-Class": "net.xaviersala.Batalla.App",
+        	   "Class-Path": "acm.jar")    	
 	}
 	from configurations.releaseJars.collect { it.isDirectory() ? it : zipTree(it) }
 }
